@@ -3,6 +3,16 @@ import random
 import json
 from difflib import get_close_matches
 
+import os
+from gtts import gTTS
+
+def speak(text):
+    print(text)
+    tts = gTTS(text=text, lang="en")
+    tts.save("result.mp3")
+    os.system("mpg321 result.mp3")
+
+
 data = json.load(open("data.json"))
 
 def define(word):
@@ -74,9 +84,9 @@ with sr.Microphone(device_index = device_id, sample_rate= sample_rate, chunk_siz
         processed_text = process_text(text)
         if type(processed_text) == list:
             for eachtext in processed_text:
-                print eachtext
+                speak(eachtext)
         else:
-            print processed_text
+            speak(processed_text)
     except sr.UnknownValueError:
         print("Google Speech Recognition could not understand audio")
     except sr.RequestError as e:
